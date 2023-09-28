@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.83699995, g: 0.15986697, b: 0.15986697, a: 1}
   m_FlipX: 0
@@ -172,3 +172,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsConfig: {fileID: 11400000, guid: aafa4ed5a55ef5049b610289fd65645c, type: 2}
+  gas:
+    m_Name: Gas
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 48f59310-ba8b-4e29-970e-9d0a19ec77e3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  steering:
+    m_Name: Steering
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: fce1345d-236d-44c1-9fcf-ba794c33f6a2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0

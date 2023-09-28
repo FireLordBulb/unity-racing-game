@@ -16,4 +16,5 @@ MonoBehaviour:
   linearDrag: 1.5
   angularDrag: 2.5
   gasForce: 7
+  reverseForce: -2
   steerTorque: 0.2
