@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carSize: {x: 0.6, y: 0.3}
   linearDrag: 1.5
-  angledWheelsFriction: 0
+  angledWheelsFriction: 2
   angularDrag: 4
-  gasForce: 8
-  reverseForce: -2
+  gasForce: 10
+  reverseForce: -3
   steerTorque: 0.4

@@ -45,8 +45,8 @@ public class CarPhysics : MonoBehaviour {
 	private void UpdateDrag(){
 		float rotationInRadians = rigidBody.rotation*Mathf.Deg2Rad;
 		Vector2 rotationVector = new Vector2(Mathf.Cos(rotationInRadians), Mathf.Sin(rotationInRadians));
-		float rotationRelativeToVelocityDirection = Vector2.SignedAngle(rotationVector, rigidBody.velocity)*Mathf.Deg2Rad;
-		float frictionFromAngledWheels = physicsConfig.AngledWheelsFriction*(1-Mathf.Cos(rotationRelativeToVelocityDirection));
+		float rotationRelativeToVelocityDirection = Vector2.Angle(rotationVector, rigidBody.velocity)*Mathf.Deg2Rad;
+		float frictionFromAngledWheels = physicsConfig.AngledWheelsFriction*Mathf.Abs(Mathf.Sin(rotationRelativeToVelocityDirection));
 		rigidBody.drag = physicsConfig.LinearDrag+frictionFromAngledWheels;
 	}
 }

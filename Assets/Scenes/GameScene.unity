@@ -891,7 +891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2299559512305967933, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4214511107607134759, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
       propertyPath: gas.m_Name
