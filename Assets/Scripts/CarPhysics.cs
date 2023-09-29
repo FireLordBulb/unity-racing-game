@@ -17,7 +17,6 @@ public class CarPhysics : MonoBehaviour {
 		steerTorque = physicsConfig.SteerTorque;
 		transform.localScale = physicsConfig.CarSize;
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
-		rigidBody.drag = physicsConfig.LinearDrag;
 		rigidBody.angularDrag = physicsConfig.AngularDrag;
 	}
 	private void OnEnable(){
@@ -31,6 +30,8 @@ public class CarPhysics : MonoBehaviour {
 		steering.Disable();
 	}
 	private void FixedUpdate(){
+		UpdateDrag();
+		
 		if (gas.IsPressed()){
 			rigidBody.AddRelativeForce(gasForce);
 		} else if (reverse.IsPressed()){
@@ -40,5 +41,12 @@ public class CarPhysics : MonoBehaviour {
 		if (steering.IsPressed()){
 			rigidBody.AddTorque(steerTorque*steering.ReadValue<float>());
 		}
+	}
+	private void UpdateDrag(){
+		float rotationInRadians = rigidBody.rotation*Mathf.Deg2Rad;
+		Vector2 rotationVector = new Vector2(Mathf.Cos(rotationInRadians), Mathf.Sin(rotationInRadians));
+		float rotationRelativeToVelocityDirection = Vector2.SignedAngle(rotationVector, rigidBody.velocity)*Mathf.Deg2Rad;
+		float frictionFromAngledWheels = physicsConfig.AngledWheelsFriction*(1-Mathf.Cos(rotationRelativeToVelocityDirection));
+		rigidBody.drag = physicsConfig.LinearDrag+frictionFromAngledWheels;
 	}
 }
