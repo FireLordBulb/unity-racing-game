@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CarPhysics : MonoBehaviour {
+public class CarHandler : MonoBehaviour {
 	[SerializeField] private PhysicsConfig physicsConfig;
-	// TODO InputActionAsset
 	[SerializeField] private InputAction gas, reverse, steering;
 	private Vector2 gasForce, reverseForce;
 	private float steerTorque;
 	private Rigidbody2D rigidBody;
+	private bool updateIsEnabled;
 	private void Start(){
 		gasForce = new Vector2(physicsConfig.GasForce, 0);
 		reverseForce = new Vector2(physicsConfig.ReverseForce, 0);
@@ -18,6 +18,12 @@ public class CarPhysics : MonoBehaviour {
 		transform.localScale = physicsConfig.CarSize;
 		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		rigidBody.angularDrag = physicsConfig.AngularDrag;
+	}
+	public void EnableUpdate(){
+		updateIsEnabled = true;
+	}
+	public void DisableUpdate(){
+		updateIsEnabled = false;
 	}
 	private void OnEnable(){
 		gas.Enable();
@@ -30,8 +36,10 @@ public class CarPhysics : MonoBehaviour {
 		steering.Disable();
 	}
 	private void FixedUpdate(){
+		if (!updateIsEnabled){
+			return;
+		}
 		UpdateDrag();
-		
 		if (gas.IsPressed()){
 			rigidBody.AddRelativeForce(gasForce);
 		} else if (reverse.IsPressed()){
