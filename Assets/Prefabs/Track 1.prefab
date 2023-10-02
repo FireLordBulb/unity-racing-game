@@ -257,6 +257,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 385266054113410808}
     m_Modifications:
     - target: {fileID: 1300701592309218637, guid: 1e7c47aa45b85c54786115b12c3944d5, type: 3}
+      propertyPath: trackHandler
+      value: 
+      objectReference: {fileID: 4944251812815468180}
+    - target: {fileID: 1300701592309218637, guid: 1e7c47aa45b85c54786115b12c3944d5, type: 3}
       propertyPath: leftMostCarPosition.x
       value: -0.6
       objectReference: {fileID: 0}

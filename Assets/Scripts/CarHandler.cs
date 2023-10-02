@@ -51,9 +51,9 @@ public class CarHandler : MonoBehaviour {
 		}
 	}
 	private void UpdateDrag(){
-		float rotationInRadians = rigidBody.rotation*Mathf.Deg2Rad;
-		Vector2 rotationVector = new Vector2(Mathf.Cos(rotationInRadians), Mathf.Sin(rotationInRadians));
-		float rotationRelativeToVelocityDirection = Vector2.Angle(rotationVector, rigidBody.velocity)*Mathf.Deg2Rad;
+		float velocityDirectionAngle = Mathf.Atan2(rigidBody.velocity.y, rigidBody.velocity.x);
+		float rotationRelativeToVelocityDirection = velocityDirectionAngle-rigidBody.rotation*Mathf.Deg2Rad;
+		// The absolute value of the sine is how perpendicular an angle is.
 		float frictionFromAngledWheels = physicsConfig.AngledWheelsFriction*Mathf.Abs(Mathf.Sin(rotationRelativeToVelocityDirection));
 		rigidBody.drag = physicsConfig.LinearDrag+frictionFromAngledWheels;
 	}
