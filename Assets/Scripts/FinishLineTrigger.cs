@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FinishLineTrigger : MonoBehaviour {
-	public Vector2 leftMostCarPosition;
-	public Vector2 rightMostCarPosition;
-	[SerializeField]private TrackHandler trackHandler;
+	public Transform leftmostCarTransform;
+	public Transform rightmostCarTransform;
 	private void OnTriggerEnter2D(Collider2D other){
 		Vector2 differenceInPositionVector = other.transform.position-this.transform.position;
 		float triggerEnterAngle = Mathf.Atan2(differenceInPositionVector.y, differenceInPositionVector.x);
@@ -17,5 +16,9 @@ public class FinishLineTrigger : MonoBehaviour {
 			Debug.Log("lap!");
 			// TODO reference to race handler
 		}
+	}
+	private void OnTriggerExit(Collider other){
+		throw new NotImplementedException();
+		// TODO subtract lap
 	}
 }
