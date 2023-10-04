@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelManager : MonoBehaviour {
 	[SerializeField] private GameObject concreteObjects;
-	[SerializeField] private TrackHandler[] tracks;
-	[SerializeField] private CarHandler[] cars;
+	[FormerlySerializedAs("tracks")] [SerializeField] private TrackHandler[] trackPrefabs;
+	[FormerlySerializedAs("cars")] [SerializeField] private CarHandler[] carPrefabs;
 	private void Start(){
-		TrackHandler track = tracks[0];
-		Instantiate(track.gameObject, concreteObjects.transform);
-		track.SetUp(cars, concreteObjects.transform);
+		TrackHandler track = Instantiate(trackPrefabs[0], concreteObjects.transform);
+		track.SetUp(carPrefabs, concreteObjects.transform);
 		track.StartRace();
 	}
 }
