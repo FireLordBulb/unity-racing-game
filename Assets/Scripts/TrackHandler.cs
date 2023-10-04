@@ -19,9 +19,7 @@ public class TrackHandler : MonoBehaviour {
 	private float timeSinceLastSpawn;
 	private void Awake(){
 		foreach (Transform child in transform){
-			if (finishLineTrigger == null){
-				finishLineTrigger = child.GetComponent<FinishLineTrigger>();
-			}
+			child.TryGetComponent(out finishLineTrigger);
 			if (child.CompareTag(TrackSectionTag)){
 				trackSectionPositions.Add(child.transform.position);
 			}
