@@ -25,6 +25,8 @@ public class TrackHandler : MonoBehaviour {
 			}
 		}
 		if (finishLineTrigger == null){
+			// TODO check if works
+			Destroy(gameObject);
 			throw new Exception("Track has no finish line!");
 		}
 	}
@@ -72,10 +74,12 @@ public class TrackHandler : MonoBehaviour {
 			SpawnPowerUp();
 		}
 	}
+	// Spawns a random power-up on a random point of the track, within some offset from the center line of the track. 
 	private void SpawnPowerUp(){
 		int trackSectionIndex = Random.Range(0, trackSectionPositions.Count);
 		Vector2 firstSectionPosition = trackSectionPositions[trackSectionIndex];
 		Vector2 secondSectionPosition = trackSectionPositions[(trackSectionIndex+1)%trackSectionPositions.Count];
+		// There's no point in using Lerp since I need the difference Vector to get the perpendicular Vector anyway.
 		Vector2 difference = secondSectionPosition-firstSectionPosition;
 		// A random position on the line between the sections' positions.
 		Vector2 spawnPosition = firstSectionPosition+difference*Random.value;
