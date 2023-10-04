@@ -418,9 +418,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   concreteObjects: {fileID: 383170637}
-  tracks:
+  trackPrefabs:
   - {fileID: 4944251812815468180, guid: 763b15443f4cdad458b11d519ca6af2f, type: 3}
-  cars:
+  carPrefabs:
   - {fileID: 3279117074071370040, guid: c525c256ffce58444b2e7f5d80341582, type: 3}
   - {fileID: 9205992610095289058, guid: c2599480908c13e4bb28381faa5c5cd4, type: 3}
 --- !u!1660057539 &9223372036854775807
