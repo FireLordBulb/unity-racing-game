@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedBoostDuration: 5
   speedBoostForce: 14
+  iceCurseDuration: 5
+  iceCurseLinearDrag: 1
+  iceCurseAngledWheelsFriction: 1

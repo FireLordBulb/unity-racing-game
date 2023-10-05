@@ -123,37 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &383170637
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 383170638}
-  m_Layer: 0
-  m_Name: ConcreteObjects
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &383170638
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383170637}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e699034d63e9bd4a8d8957d4fca67a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  concreteObjects: {fileID: 383170637}
   trackPrefabs:
   - {fileID: 4944251812815468180, guid: 763b15443f4cdad458b11d519ca6af2f, type: 3}
   carPrefabs:
@@ -425,11 +393,11 @@ MonoBehaviour:
   - {fileID: 9205992610095289058, guid: c2599480908c13e4bb28381faa5c5cd4, type: 3}
   powerUpPrefabs:
   - {fileID: 806204068461441409, guid: a0abcf627c3a24943b8ddd97b3c08e7e, type: 3}
+  - {fileID: 3692869287179462276, guid: 1d8dc3427ea0aaf45811e99d5a9d8caa, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 383170638}
   - {fileID: 1395154732}

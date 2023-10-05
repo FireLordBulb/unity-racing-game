@@ -34,7 +34,7 @@ public class TrackHandler : MonoBehaviour {
 			throw new Exception("Track has no finish line!");
 		}
 	}
-	public void SetUp(CarHandler[] carPrefabs, Transform carParent, PowerUpTrigger[] powerUpPrefabs){
+	public void SetUp(CarHandler[] carPrefabs, PowerUpTrigger[] powerUpPrefabs){
 		powerUps = powerUpPrefabs;
 		Vector2 leftmostCarPosition = finishLineTrigger.leftmostCarTransform.position;
 		Vector2 rightmostCarPosition = finishLineTrigger.rightmostCarTransform.position;
@@ -45,8 +45,8 @@ public class TrackHandler : MonoBehaviour {
 		// 2 gaps between cars so the difference is half of the total distance.
 		Vector2 carPosDifference = cars.Length != 1 ? (rightmostCarPosition-leftmostCarPosition)/(cars.Length-1) : new Vector2();
 		for (int i = 0; i < carPrefabs.Length; i++){
-			cars[i] = Instantiate(carPrefabs[i], carPos, rotation, carParent);
-			cars[i].currentTrack = this;
+			cars[i] = Instantiate(carPrefabs[i], carPos, rotation);
+			cars[i].Initialize(this);
 			carPos += carPosDifference;
 		}
 		currentLap = 0;

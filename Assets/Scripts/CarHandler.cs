@@ -7,24 +7,32 @@ using UnityEngine.InputSystem;
 public class CarHandler : MonoBehaviour {
 	[SerializeField] private PhysicsConfig physicsConfig;
 	[SerializeField] private InputAction gas, reverse, steering;
-	public Vector2 gasForce, reverseForce;
-	public float steerTorque;
-	public Rigidbody2D Rigidbody {get; private set;}
+	public Vector2 GasForce {get; set;}
+	private Vector2	ReverseForce {get; set;}
+	private float SteerTorque {get; set;}
+	public float LinearDrag {get; set;}
+	public float AngledWheelsFriction {get; set;}
+	private Rigidbody2D rigidBody;
 	private bool updateIsEnabled;
+	private TrackHandler currentTrack;
 	private int lap;
 	private PowerUp powerUp;
 	private float powerUpRemainingDuration;
 	private SpriteRenderer activePowerUpSprite;
 	private Dictionary<string, SpriteRenderer> powerUpSprites;
-	public TrackHandler currentTrack;
+	public void Initialize(TrackHandler track){
+		currentTrack = track;
+	}
 	private void Start(){
-		gasForce = new Vector2(physicsConfig.GasForce, 0);
-		reverseForce = new Vector2(physicsConfig.ReverseForce, 0);
-		steerTorque = physicsConfig.SteerTorque;
 		transform.localScale = physicsConfig.CarSize;
-		Rigidbody = gameObject.GetComponent<Rigidbody2D>();
-		Rigidbody.angularDrag = physicsConfig.AngularDrag;
-		// Lap start at -1 so when the start/finishline is crossed the
+		GasForce = new Vector2(physicsConfig.GasForce, 0);
+		ReverseForce = new Vector2(physicsConfig.ReverseForce, 0);
+		SteerTorque = physicsConfig.SteerTorque;
+		rigidBody = gameObject.GetComponent<Rigidbody2D>();
+		LinearDrag = physicsConfig.LinearDrag;
+		AngledWheelsFriction = physicsConfig.AngledWheelsFriction;
+		rigidBody.angularDrag = physicsConfig.AngularDrag;
+		// Lap starts at -1 so when the start/finishline is crossed the
 		// first time, starting line one, the car is on lap 0.
 		lap = -1;
 		powerUp = null;
@@ -47,6 +55,7 @@ public class CarHandler : MonoBehaviour {
 		powerUp = p;
 		powerUp.ApplyPhysicsEffectTo(this);
 		powerUpRemainingDuration = powerUp.Duration;
+		Debug.Log(powerUp.GetSpriteTag());
 		activePowerUpSprite = powerUpSprites[powerUp.GetSpriteTag()];
 		if (activePowerUpSprite != null){
 			activePowerUpSprite.enabled = true;
@@ -60,6 +69,7 @@ public class CarHandler : MonoBehaviour {
 		powerUp = null;
 		if (activePowerUpSprite != null){
 			activePowerUpSprite.enabled = false;
+			activePowerUpSprite = null;
 		}
 	}
 	public void EnableUpdate(){
@@ -96,21 +106,21 @@ public class CarHandler : MonoBehaviour {
 		}
 	}
 	private void UpdateDrag(){
-		float velocityDirectionAngle = Mathf.Atan2(Rigidbody.velocity.y, Rigidbody.velocity.x);
-		float rotationRelativeToVelocityDirection = velocityDirectionAngle-Rigidbody.rotation*Mathf.Deg2Rad;
+		float velocityDirectionAngle = Mathf.Atan2(rigidBody.velocity.y, rigidBody.velocity.x);
+		float rotationRelativeToVelocityDirection = velocityDirectionAngle-rigidBody.rotation*Mathf.Deg2Rad;
 		// The absolute value of the sine is how perpendicular an angle is.
-		float frictionFromAngledWheels = physicsConfig.AngledWheelsFriction*Mathf.Abs(Mathf.Sin(rotationRelativeToVelocityDirection));
-		Rigidbody.drag = physicsConfig.LinearDrag+frictionFromAngledWheels;
+		float frictionFromAngledWheels = AngledWheelsFriction*Mathf.Abs(Mathf.Sin(rotationRelativeToVelocityDirection));
+		rigidBody.drag = LinearDrag+frictionFromAngledWheels;
 	}
 	private void ApplyInput(){
 		if (gas.IsPressed()){
-			Rigidbody.AddRelativeForce(gasForce);
+			rigidBody.AddRelativeForce(GasForce);
 		} else if (reverse.IsPressed()){
-			Rigidbody.AddRelativeForce(reverseForce);
+			rigidBody.AddRelativeForce(ReverseForce);
 		}
 		
 		if (steering.IsPressed()){
-			Rigidbody.AddTorque(steerTorque*steering.ReadValue<float>());
+			rigidBody.AddTorque(SteerTorque*steering.ReadValue<float>());
 		}
 	}
 }

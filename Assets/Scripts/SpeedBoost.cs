@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-[Serializable]
 public class SpeedBoost : PowerUp {
 	private readonly float boostedGasForce;
 	private float baseGasForce;
@@ -12,11 +11,10 @@ public class SpeedBoost : PowerUp {
 		return "Speed Boost";
 	}
 	public override void ApplyPhysicsEffectTo(CarHandler car){
-		baseGasForce = car.gasForce.x;
-		car.gasForce.x = boostedGasForce;
-		car.Rigidbody.position += new Vector2();
+		baseGasForce = car.GasForce.x;
+		car.GasForce = new Vector2(boostedGasForce, 0);
 	}
 	public override void RemovePhysicsEffectFrom(CarHandler car){
-		car.gasForce.x = baseGasForce;
+		car.GasForce = new Vector2(baseGasForce, 0);
 	}
 }

@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-
-[Serializable]
 public abstract class PowerUp {
 	public readonly float Duration;
 	protected PowerUp(float d){
