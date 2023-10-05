@@ -19,13 +19,14 @@ public class TrackHandler : MonoBehaviour {
 	private float timeSinceLastSpawn;
 	private void Awake(){
 		foreach (Transform child in transform){
-			child.TryGetComponent(out finishLineTrigger);
+			if (finishLineTrigger == null && child.TryGetComponent(out FinishLineTrigger trigger)){
+				finishLineTrigger = trigger;
+			}
 			if (child.CompareTag(TrackSectionTag)){
 				trackSectionPositions.Add(child.transform.position);
 			}
 		}
 		if (finishLineTrigger == null){
-			// TODO check if works
 			Destroy(gameObject);
 			throw new Exception("Track has no finish line!");
 		}
