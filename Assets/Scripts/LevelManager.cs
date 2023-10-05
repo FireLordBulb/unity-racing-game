@@ -5,11 +5,12 @@ using UnityEngine.Serialization;
 
 public class LevelManager : MonoBehaviour {
 	[SerializeField] private GameObject concreteObjects;
-	[FormerlySerializedAs("tracks")] [SerializeField] private TrackHandler[] trackPrefabs;
-	[FormerlySerializedAs("cars")] [SerializeField] private CarHandler[] carPrefabs;
+	[SerializeField] private TrackHandler[] trackPrefabs;
+	[SerializeField] private CarHandler[] carPrefabs;
+	[SerializeField] private PowerUpTrigger[] powerUpPrefabs;
 	private void Start(){
 		TrackHandler track = Instantiate(trackPrefabs[0], concreteObjects.transform);
-		track.SetUp(carPrefabs, concreteObjects.transform);
+		track.SetUp(carPrefabs, concreteObjects.transform, powerUpPrefabs);
 		track.StartRace();
 	}
 }

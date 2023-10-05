@@ -12,6 +12,7 @@ public class TrackHandler : MonoBehaviour {
 	private readonly List<Vector2> trackSectionPositions = new();
 	private FinishLineTrigger finishLineTrigger;
 	private CarHandler[] cars;
+	private PowerUpTrigger[] powerUps;
 	private int currentLap;
 	private Timer timer;
 	private bool raceIsOngoing;
@@ -31,7 +32,8 @@ public class TrackHandler : MonoBehaviour {
 			throw new Exception("Track has no finish line!");
 		}
 	}
-	public void SetUp(CarHandler[] carPrefabs, Transform carParent){
+	public void SetUp(CarHandler[] carPrefabs, Transform carParent, PowerUpTrigger[] powerUpPrefabs){
+		powerUps = powerUpPrefabs;
 		Vector2 leftmostCarPosition = finishLineTrigger.leftmostCarTransform.position;
 		Vector2 rightmostCarPosition = finishLineTrigger.rightmostCarTransform.position;
 		Vector2 carPos = leftmostCarPosition;
@@ -74,6 +76,7 @@ public class TrackHandler : MonoBehaviour {
 			timeSinceLastSpawn = 0;
 			SpawnPowerUp();
 		}
+		
 	}
 	// Spawns a random power-up on a random point of the track, within some offset from the center line of the track. 
 	private void SpawnPowerUp(){
@@ -82,10 +85,11 @@ public class TrackHandler : MonoBehaviour {
 		Vector2 secondSectionPosition = trackSectionPositions[(trackSectionIndex+1)%trackSectionPositions.Count];
 		// There's no point in using Lerp since I need the difference Vector to get the perpendicular Vector anyway.
 		Vector2 difference = secondSectionPosition-firstSectionPosition;
-		// A random position on the line between the sections' positions.
+		// A random position on the center line of the track.
 		Vector2 spawnPosition = firstSectionPosition+difference*Random.value;
 		// Adding a perpendicular offset from that line.
 		spawnPosition += Vector2.Perpendicular(difference).normalized*Random.Range(-powerUpMaxPositionOffset, powerUpMaxPositionOffset);
 		Debug.Log(spawnPosition.x+" "+spawnPosition.y);
+		Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPosition, Quaternion.identity);
 	}
 }
