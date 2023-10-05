@@ -13,13 +13,13 @@ public class IceCurse : PowerUp {
 	public override string GetSpriteTag(){
 		return "Ice Curse";
 	}
-	public override void ApplyPhysicsEffectTo(CarHandler car){
+	public override void ApplyEffectTo(CarHandler car){
 		baseLinearDrag = car.LinearDrag;
 		baseAngledWheelsFriction = car.AngledWheelsFriction;
 		car.LinearDrag = iceLinearDrag;
 		car.AngledWheelsFriction = iceAngledWheelsFriction;
 	}
-	public override void RemovePhysicsEffectFrom(CarHandler car){
+	public override void RemoveEffectFrom(CarHandler car){
 		car.LinearDrag = baseLinearDrag;
 		car.AngledWheelsFriction = baseAngledWheelsFriction;
 	}

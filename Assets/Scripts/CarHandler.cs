@@ -24,7 +24,6 @@ public class CarHandler : MonoBehaviour {
 		currentTrack = track;
 	}
 	private void Start(){
-		transform.localScale = physicsConfig.CarSize;
 		GasForce = new Vector2(physicsConfig.GasForce, 0);
 		ReverseForce = new Vector2(physicsConfig.ReverseForce, 0);
 		SteerTorque = physicsConfig.SteerTorque;
@@ -53,9 +52,8 @@ public class CarHandler : MonoBehaviour {
 	public void GivePowerUp(PowerUp p){
 		RemovePowerUp();
 		powerUp = p;
-		powerUp.ApplyPhysicsEffectTo(this);
+		powerUp.ApplyEffectTo(this);
 		powerUpRemainingDuration = powerUp.Duration;
-		Debug.Log(powerUp.GetSpriteTag());
 		activePowerUpSprite = powerUpSprites[powerUp.GetSpriteTag()];
 		if (activePowerUpSprite != null){
 			activePowerUpSprite.enabled = true;
@@ -65,7 +63,7 @@ public class CarHandler : MonoBehaviour {
 		if (powerUp == null){
 			return;
 		}
-		powerUp.RemovePhysicsEffectFrom(this);
+		powerUp.RemoveEffectFrom(this);
 		powerUp = null;
 		if (activePowerUpSprite != null){
 			activePowerUpSprite.enabled = false;
