@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82050d716f274e359e270627c5984c56, type: 3}
-  m_Name: Default Power Up Config
+  m_Script: {fileID: 11500000, guid: c47d084cc0b54f20b34402a109905732, type: 3}
+  m_Name: Power Up Spawning Config
   m_EditorClassIdentifier: 
-  speedBoostDuration: 5
-  speedBoostForce: 14
+  maxInstances: 2
+  maxPositionOffset: 0.5
+  minSpawnTime: 4
+  maxSpawnTime: 8

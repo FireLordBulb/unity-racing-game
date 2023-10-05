@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eab409f370590084ca96ad9301b4ab6e, type: 3}
-  m_Name: Default Physics Config
+  m_Script: {fileID: 11500000, guid: 82050d716f274e359e270627c5984c56, type: 3}
+  m_Name: Power Up Effect Config
   m_EditorClassIdentifier: 
-  carSize: {x: 0.6, y: 0.3}
-  linearDrag: 1.5
-  angledWheelsFriction: 2
-  angularDrag: 4
-  gasForce: 10
-  reverseForce: -3
-  steerTorque: 0.4
+  speedBoostDuration: 5
+  speedBoostForce: 14

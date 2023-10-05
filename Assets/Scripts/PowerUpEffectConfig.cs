@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu]
-public class PowerUpConfig : ScriptableObject {
+public class PowerUpEffectConfig : ScriptableObject {
 	[SerializeField] private float speedBoostDuration, speedBoostForce;
 	public float SpeedBoostDuration => speedBoostDuration;
 	public float SpeedBoostForce => speedBoostForce;

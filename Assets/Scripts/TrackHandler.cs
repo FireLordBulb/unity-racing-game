@@ -7,9 +7,11 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class TrackHandler : MonoBehaviour {
-	[SerializeField]private float powerUpMaxPositionOffset;
+
+	[SerializeField]private PowerUpSpawningConfig powerUpSpawningConfig;
 	private const string TrackSectionTag = "Track Section";
 	private readonly List<Vector2> trackSectionPositions = new();
+	private readonly List<PowerUpTrigger> powerUpInstances = new();
 	private FinishLineTrigger finishLineTrigger;
 	private CarHandler[] cars;
 	private PowerUpTrigger[] powerUps;
@@ -17,7 +19,7 @@ public class TrackHandler : MonoBehaviour {
 	private Timer timer;
 	private bool raceIsOngoing;
 	private float raceTime;
-	private float timeSinceLastSpawn;
+	private float timeUntilNextSpawn;
 	private void Awake(){
 		foreach (Transform child in transform){
 			if (finishLineTrigger == null && child.TryGetComponent(out FinishLineTrigger trigger)){
@@ -55,7 +57,7 @@ public class TrackHandler : MonoBehaviour {
 		}
 		raceIsOngoing = true;
 		raceTime = 0;
-		timeSinceLastSpawn = 0;
+		timeUntilNextSpawn = powerUpSpawningConfig.NewSpawnTime;
 	}
 	public void NewLap(int lap){
 		if (currentLap < lap){
@@ -70,13 +72,19 @@ public class TrackHandler : MonoBehaviour {
 			return;
 		}
 		raceTime += Time.fixedDeltaTime;
-		// TODO update UI
-		timeSinceLastSpawn += Time.fixedDeltaTime;
-		if (timeSinceLastSpawn > 3){
-			timeSinceLastSpawn = 0;
+		HandlePowerUps();
+	}
+	private void HandlePowerUps(){
+		// References to destroyed objects become null references and have to be manually removed.
+		powerUpInstances.RemoveAll(powerUp => powerUp == null);
+		if (powerUpInstances.Count >= powerUpSpawningConfig.MaxInstances){
+			return;
+		}
+		timeUntilNextSpawn -= Time.fixedDeltaTime;
+		if (timeUntilNextSpawn < 0){
+			timeUntilNextSpawn = powerUpSpawningConfig.NewSpawnTime;
 			SpawnPowerUp();
 		}
-		
 	}
 	// Spawns a random power-up on a random point of the track, within some offset from the center line of the track. 
 	private void SpawnPowerUp(){
@@ -88,8 +96,7 @@ public class TrackHandler : MonoBehaviour {
 		// A random position on the center line of the track.
 		Vector2 spawnPosition = firstSectionPosition+difference*Random.value;
 		// Adding a perpendicular offset from that line.
-		spawnPosition += Vector2.Perpendicular(difference).normalized*Random.Range(-powerUpMaxPositionOffset, powerUpMaxPositionOffset);
-		Debug.Log(spawnPosition.x+" "+spawnPosition.y);
-		Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPosition, Quaternion.identity);
+		spawnPosition += Vector2.Perpendicular(difference).normalized*powerUpSpawningConfig.NewPositionOffset;
+		powerUpInstances.Add(Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPosition, Quaternion.identity));
 	}
 }
