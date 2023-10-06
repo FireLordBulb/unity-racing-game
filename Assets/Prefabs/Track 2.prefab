@@ -7090,7 +7090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpSpawningConfig: {fileID: 11400000, guid: d9a2dd0833be7674dbb514d807fe1ed3, type: 2}
   trackName: Level 2
-  totalLaps: 3
+  totalLaps: 10
 --- !u!1 &6211950766075645666
 GameObject:
   m_ObjectHideFlags: 0
