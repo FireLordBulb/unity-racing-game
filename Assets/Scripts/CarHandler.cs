@@ -12,7 +12,7 @@ public class CarHandler : MonoBehaviour {
 	private float SteerTorque {get; set;}
 	public float LinearDrag {get; set;}
 	public float AngledWheelsFriction {get; set;}
-	private Rigidbody2D rigidBody;
+	public Rigidbody2D RigidBody {get; private set;}
 	private bool updateIsEnabled;
 	private TrackHandler currentTrack;
 	private int lap;
@@ -20,17 +20,18 @@ public class CarHandler : MonoBehaviour {
 	private float powerUpRemainingDuration;
 	private SpriteRenderer activePowerUpSprite;
 	private Dictionary<string, SpriteRenderer> powerUpSprites;
+	
 	public void Initialize(TrackHandler track){
+		RigidBody = gameObject.GetComponent<Rigidbody2D>();
 		currentTrack = track;
 	}
 	private void Start(){
 		GasForce = new Vector2(physicsConfig.GasForce, 0);
 		ReverseForce = new Vector2(physicsConfig.ReverseForce, 0);
 		SteerTorque = physicsConfig.SteerTorque;
-		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 		LinearDrag = physicsConfig.LinearDrag;
 		AngledWheelsFriction = physicsConfig.AngledWheelsFriction;
-		rigidBody.angularDrag = physicsConfig.AngularDrag;
+		RigidBody.angularDrag = physicsConfig.AngularDrag;
 		// Lap starts at -1 so when the start/finishline is crossed the
 		// first time, starting line one, the car is on lap 0.
 		lap = -1;
@@ -59,7 +60,7 @@ public class CarHandler : MonoBehaviour {
 			activePowerUpSprite.enabled = true;
 		}
 	}
-	private void RemovePowerUp(){
+	public void RemovePowerUp(){
 		if (powerUp == null){
 			return;
 		}
@@ -104,21 +105,21 @@ public class CarHandler : MonoBehaviour {
 		}
 	}
 	private void UpdateDrag(){
-		float velocityDirectionAngle = Mathf.Atan2(rigidBody.velocity.y, rigidBody.velocity.x);
-		float rotationRelativeToVelocityDirection = velocityDirectionAngle-rigidBody.rotation*Mathf.Deg2Rad;
+		float velocityDirectionAngle = Mathf.Atan2(RigidBody.velocity.y, RigidBody.velocity.x);
+		float rotationRelativeToVelocityDirection = velocityDirectionAngle-RigidBody.rotation*Mathf.Deg2Rad;
 		// The absolute value of the sine is how perpendicular an angle is.
 		float frictionFromAngledWheels = AngledWheelsFriction*Mathf.Abs(Mathf.Sin(rotationRelativeToVelocityDirection));
-		rigidBody.drag = LinearDrag+frictionFromAngledWheels;
+		RigidBody.drag = LinearDrag+frictionFromAngledWheels;
 	}
 	private void ApplyInput(){
 		if (gas.IsPressed()){
-			rigidBody.AddRelativeForce(GasForce);
+			RigidBody.AddRelativeForce(GasForce);
 		} else if (reverse.IsPressed()){
-			rigidBody.AddRelativeForce(ReverseForce);
+			RigidBody.AddRelativeForce(ReverseForce);
 		}
 		
 		if (steering.IsPressed()){
-			rigidBody.AddTorque(SteerTorque*steering.ReadValue<float>());
+			RigidBody.AddTorque(SteerTorque*steering.ReadValue<float>());
 		}
 	}
 }

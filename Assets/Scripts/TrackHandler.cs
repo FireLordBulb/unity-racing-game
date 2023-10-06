@@ -7,14 +7,16 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class TrackHandler : MonoBehaviour {
-
 	[SerializeField]private PowerUpSpawningConfig powerUpSpawningConfig;
+	[SerializeField] private string trackName;
+	[SerializeField]private int totalLaps;
 	private const string TrackSectionTag = "Track Section";
 	private readonly List<Vector2> trackSectionPositions = new();
 	private readonly List<PowerUpTrigger> powerUpInstances = new();
 	private FinishLineTrigger finishLineTrigger;
 	private CarHandler[] cars;
 	private PowerUpTrigger[] powerUps;
+	private InfoTextHandler infoTextHandler;
 	private int currentLap;
 	private Timer timer;
 	private bool raceIsOngoing;
@@ -34,8 +36,9 @@ public class TrackHandler : MonoBehaviour {
 			throw new Exception("Track has no finish line!");
 		}
 	}
-	public void SetUp(CarHandler[] carPrefabs, PowerUpTrigger[] powerUpPrefabs){
+	public void SetUp(CarHandler[] carPrefabs, PowerUpTrigger[] powerUpPrefabs, InfoText infoTextPrefab){
 		powerUps = powerUpPrefabs;
+		infoTextHandler = new InfoTextHandler(Instantiate(infoTextPrefab), trackName, totalLaps);
 		Vector2 leftmostCarPosition = finishLineTrigger.leftmostCarTransform.position;
 		Vector2 rightmostCarPosition = finishLineTrigger.rightmostCarTransform.position;
 		Vector2 carPos = leftmostCarPosition;
@@ -50,21 +53,33 @@ public class TrackHandler : MonoBehaviour {
 			carPos += carPosDifference;
 		}
 		currentLap = 0;
+		infoTextHandler.UpdateLapCounter(currentLap);
+		raceTime = 0;
+		infoTextHandler.UpdateTimer(raceTime);
 	}
 	public void StartRace(){
 		foreach (var car in cars){
 			car.EnableUpdate();
 		}
 		raceIsOngoing = true;
-		raceTime = 0;
 		timeUntilNextSpawn = powerUpSpawningConfig.NewSpawnTime;
 	}
 	public void NewLap(int lap){
-		if (currentLap < lap){
-			currentLap = lap;
+		if (currentLap >= lap){
+			return;
 		}
-		// TODO update UI
-		Debug.Log(currentLap);
+		currentLap = lap;
+		infoTextHandler.UpdateLapCounter(currentLap);
+		if (currentLap >= totalLaps){
+			Debug.Log("Race is over!");
+			raceIsOngoing = false;
+			foreach (CarHandler car in cars){
+				car.DisableUpdate();
+				car.RemovePowerUp();
+				// TODO move to pause menu.
+				car.RigidBody.simulated = false;
+			}
+		}
 		// TODO end race if last lap. 
 	}
 	private void FixedUpdate(){
@@ -72,6 +87,7 @@ public class TrackHandler : MonoBehaviour {
 			return;
 		}
 		raceTime += Time.fixedDeltaTime;
+		infoTextHandler.UpdateTimer(raceTime);
 		HandlePowerUps();
 	}
 	private void HandlePowerUps(){

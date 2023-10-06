@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Power Up Spawning Config
   m_EditorClassIdentifier: 
   maxInstances: 2
-  maxPositionOffset: 0.5
+  maxPositionOffset: 0.7
   minSpawnTime: 4
-  maxSpawnTime: 8
+  maxSpawnTime: 10
