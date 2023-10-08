@@ -43,7 +43,9 @@ public class CarHandler : MonoBehaviour {
 				continue;
 			}
 			powerUpSprites.Add(child.tag, sprite);
-			sprite.enabled = false;
+			if (!child.CompareTag("Untagged")){
+				sprite.enabled = false;
+			}
 		}
 	}
 	public void IncrementLap(int change){

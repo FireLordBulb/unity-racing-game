@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab409f370590084ca96ad9301b4ab6e, type: 3}
   m_Name: Physics Config
   m_EditorClassIdentifier: 
-  carSize: {x: 0.6, y: 0.3}
   linearDrag: 1.5
   angledWheelsFriction: 2
   angularDrag: 4
