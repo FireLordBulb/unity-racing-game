@@ -3,23 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class TrackHandler : MonoBehaviour {
-	[SerializeField]private PowerUpSpawningConfig powerUpSpawningConfig;
+	[SerializeField] private PowerUpSpawningConfig powerUpSpawningConfig;
 	[SerializeField] private string trackName;
-	[SerializeField]private int totalLaps;
+	[SerializeField] private int totalLaps;
 	private const string TrackSectionTag = "Track Section";
 	private readonly List<Vector2> trackSectionPositions = new();
 	private readonly List<PowerUpTrigger> powerUpInstances = new();
 	private FinishLineTrigger finishLineTrigger;
+	private CarHandler[] carPrefabs;
 	private CarHandler[] cars;
-	private PowerUpTrigger[] powerUps;
+	private PowerUpTrigger[] powerUpPrefabs;
+	private RaceEndMenu raceEndMenuPrefab;
 	private InfoTextHandler infoTextHandler;
+	private LoadingManager loadingManager;
 	private int currentLap;
 	private Timer timer;
-	private bool raceIsOngoing;
+	private bool raceIsUpdating;
 	private float raceTime;
 	private float timeUntilNextSpawn;
 	private void Awake(){
@@ -36,9 +38,15 @@ public class TrackHandler : MonoBehaviour {
 			throw new Exception("Track has no finish line!");
 		}
 	}
-	public void SetUp(CarHandler[] carPrefabs, PowerUpTrigger[] powerUpPrefabs, InfoText infoTextPrefab){
-		powerUps = powerUpPrefabs;
-		infoTextHandler = new InfoTextHandler(Instantiate(infoTextPrefab), trackName, totalLaps);
+	public void Initialize(CarHandler[] cps, PowerUpTrigger[] pups, RaceEndMenu remp, InfoText infoTextPrefab, LoadingManager lm){
+		carPrefabs = cps;
+		powerUpPrefabs = pups;
+		raceEndMenuPrefab = remp;
+		infoTextHandler = new InfoTextHandler(Instantiate(infoTextPrefab, transform), trackName, totalLaps);
+		loadingManager = lm;
+		SetUpRace();
+	}
+	private void SetUpRace(){
 		Vector2 leftmostCarPosition = finishLineTrigger.leftmostCarTransform.position;
 		Vector2 rightmostCarPosition = finishLineTrigger.rightmostCarTransform.position;
 		Vector2 carPos = leftmostCarPosition;
@@ -48,7 +56,7 @@ public class TrackHandler : MonoBehaviour {
 		// 2 gaps between cars so the difference is half of the total distance.
 		Vector2 carPosDifference = cars.Length != 1 ? (rightmostCarPosition-leftmostCarPosition)/(cars.Length-1) : new Vector2();
 		for (int i = 0; i < carPrefabs.Length; i++){
-			cars[i] = Instantiate(carPrefabs[i], carPos, rotation);
+			cars[i] = Instantiate(carPrefabs[i], carPos, rotation, transform);
 			cars[i].Initialize(this);
 			carPos += carPosDifference;
 		}
@@ -61,29 +69,47 @@ public class TrackHandler : MonoBehaviour {
 		foreach (var car in cars){
 			car.EnableUpdate();
 		}
-		raceIsOngoing = true;
+		raceIsUpdating = true;
 		timeUntilNextSpawn = powerUpSpawningConfig.NewSpawnTime;
 	}
-	public void NewLap(int lap){
+	public void NewLap(int lap, CarHandler car){
 		if (currentLap >= lap){
 			return;
 		}
 		currentLap = lap;
 		infoTextHandler.UpdateLapCounter(currentLap);
 		if (currentLap >= totalLaps){
-			Debug.Log("Race is over!");
-			raceIsOngoing = false;
-			foreach (CarHandler car in cars){
-				car.DisableUpdate();
-				car.RemovePowerUp();
-				// TODO move to pause menu.
-				car.RigidBody.simulated = false;
-			}
+			EndRace(car);
 		}
-		// TODO end race if last lap. 
+	}
+	private void EndRace(CarHandler winningCar){
+		raceIsUpdating = false;
+		foreach (CarHandler car in cars){
+			car.DisableUpdate();
+			car.RemovePowerUp();
+			// TODO move to pause menu.
+			car.RigidBody.simulated = false;
+		}
+		RaceEndMenu raceEndMenu = Instantiate(raceEndMenuPrefab, transform);
+		raceEndMenu.Result.text = $"{winningCar.carName} won the race!";
+		raceEndMenu.ReturnToMenu.onClick.AddListener(() => {
+			loadingManager.LoadMainMenu();
+			Destroy(gameObject);
+		});
+		raceEndMenu.PlayAgain.onClick.AddListener(() => {
+			Destroy(raceEndMenu.gameObject);
+			foreach (CarHandler car in cars){
+				Destroy(car.gameObject);
+			}
+			foreach (PowerUpTrigger powerUp in powerUpInstances){
+				Destroy(powerUp.gameObject);
+			}
+			SetUpRace();
+			StartRace();
+		});
 	}
 	private void FixedUpdate(){
-		if (!raceIsOngoing){
+		if (!raceIsUpdating){
 			return;
 		}
 		raceTime += Time.fixedDeltaTime;
@@ -113,6 +139,6 @@ public class TrackHandler : MonoBehaviour {
 		Vector2 spawnPosition = firstSectionPosition+difference*Random.value;
 		// Adding a perpendicular offset from that line.
 		spawnPosition += Vector2.Perpendicular(difference).normalized*powerUpSpawningConfig.NewPositionOffset;
-		powerUpInstances.Add(Instantiate(powerUps[Random.Range(0, powerUps.Length)], spawnPosition, Quaternion.identity));
+		powerUpInstances.Add(Instantiate(powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)], spawnPosition, Quaternion.identity, transform));
 	}
 }

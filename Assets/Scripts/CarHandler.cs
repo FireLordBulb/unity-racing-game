@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class CarHandler : MonoBehaviour {
 	[SerializeField] private PhysicsConfig physicsConfig;
 	[SerializeField] private InputAction gas, reverse, steering;
+	public string carName;
 	public Vector2 GasForce {get; set;}
 	private Vector2	ReverseForce {get; set;}
 	private float SteerTorque {get; set;}
@@ -44,13 +45,13 @@ public class CarHandler : MonoBehaviour {
 			}
 			powerUpSprites.Add(child.tag, sprite);
 			if (!child.CompareTag("Untagged")){
-				sprite.enabled = false;
+				//sprite.enabled = false;
 			}
 		}
 	}
 	public void IncrementLap(int change){
 		lap += change;
-		currentTrack.NewLap(lap);
+		currentTrack.NewLap(lap, this);
 	}
 	public void GivePowerUp(PowerUp p){
 		RemovePowerUp();

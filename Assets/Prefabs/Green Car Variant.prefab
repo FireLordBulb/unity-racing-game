@@ -17,6 +17,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4214511107607134759, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
+      propertyPath: carName
+      value: The Green Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 4214511107607134759, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
       propertyPath: gas.m_Name
       value: Gas
       objectReference: {fileID: 0}
