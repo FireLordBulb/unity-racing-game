@@ -21,6 +21,7 @@ public class TrackHandler : MonoBehaviour {
 	private PauseMenu pauseMenu;
 	private Canvas pauseMenuCanvas;
 	private InputAction pause;
+	private bool pauseIsHeld;
 	private InfoTextHandler infoTextHandler;
 	private LoadingManager loadingManager;
 	private bool isPaused;
@@ -143,21 +144,28 @@ public class TrackHandler : MonoBehaviour {
 		if (!raceIsOngoing){
 			return;
 		}
-		Debug.Log(pause.triggered);
-		if (isPaused){0pp
-			if (pause.triggered){
+		if (isPaused){
+			if (PauseWasPressed()){
 				Unpause();
 			}
 			return;
 		}
-		if (pause.triggered){
+		if (PauseWasPressed()){
 			Pause();
 		}
 		raceTime += Time.fixedDeltaTime;
 		infoTextHandler.UpdateTimer(raceTime);
 		HandlePowerUps();
 	}
-	
+	private bool PauseWasPressed(){
+		if (pause.IsPressed()){
+			bool pauseWasNotHeld = !pauseIsHeld;
+			pauseIsHeld = true;
+			return pauseWasNotHeld;
+		}
+		pauseIsHeld = false;
+		return false;
+	}
 	private void HandlePowerUps(){
 		// References to destroyed objects become null references and have to be manually removed.
 		powerUpInstances.RemoveAll(powerUp => powerUp == null);
@@ -177,9 +185,7 @@ public class TrackHandler : MonoBehaviour {
 		Vector2 secondSectionPosition = trackSectionPositions[(trackSectionIndex+1)%trackSectionPositions.Count];
 		// There's no point in using Lerp since I need the difference Vector to get the perpendicular Vector anyway.
 		Vector2 difference = secondSectionPosition-firstSectionPosition;
-		// A random position on the center line of the track.
 		Vector2 spawnPosition = firstSectionPosition+difference*Random.value;
-		// Adding a perpendicular offset from that line.
 		spawnPosition += Vector2.Perpendicular(difference).normalized*powerUpSpawningConfig.NewPositionOffset;
 		powerUpInstances.Add(Instantiate(powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)], spawnPosition, Quaternion.identity, transform));
 	}
