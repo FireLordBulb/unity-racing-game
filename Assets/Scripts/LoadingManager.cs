@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -11,27 +12,28 @@ public class LoadingManager : MonoBehaviour {
 	[SerializeField] private PowerUpTrigger[] powerUpPrefabs;
 	[SerializeField] private MainMenu mainMenuPrefab;
 	[SerializeField] private RaceEndMenu raceEndMenuPrefab;
+	[SerializeField] private PauseMenu pauseMenuPrefab;
+	[SerializeField] private InputAction pause;
 	[SerializeField] private InfoText infoTextPrefab;
-
 	private void Awake(){
 		LoadMainMenu();
 	}
 	public void LoadMainMenu(){
 		MainMenu mainMenu = Instantiate(mainMenuPrefab);
-		for (int i = 0; i < trackPrefabs.Length && i < mainMenu.Buttons.Length; i++){
+		for (int i = 0; i < trackPrefabs.Length && i < mainMenu.LevelButtons.Length; i++){
 			TrackHandler trackPrefab = trackPrefabs[i];
-			mainMenu.Buttons[i].onClick.AddListener(() => {
+			mainMenu.LevelButtons[i].onClick.AddListener(() => {
 				LoadTrack(trackPrefab);
 				Destroy(mainMenu.gameObject);
 			});
 		}
 	}
-	public void LoadTrack(TrackHandler trackPrefab){
+	private void LoadTrack(TrackHandler trackPrefab){
 		if (currentTrack != null){
 			Destroy(currentTrack.gameObject);
 		}
 		currentTrack = Instantiate(trackPrefab);
-		currentTrack.Initialize(carPrefabs, powerUpPrefabs, raceEndMenuPrefab, infoTextPrefab, this);
+		currentTrack.Initialize(carPrefabs, powerUpPrefabs, raceEndMenuPrefab, pauseMenuPrefab, pause, infoTextPrefab, this);
 		currentTrack.StartRace();
 	}
 }

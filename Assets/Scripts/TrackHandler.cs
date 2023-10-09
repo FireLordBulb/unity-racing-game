@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class TrackHandler : MonoBehaviour {
@@ -17,11 +18,15 @@ public class TrackHandler : MonoBehaviour {
 	private CarHandler[] cars;
 	private PowerUpTrigger[] powerUpPrefabs;
 	private RaceEndMenu raceEndMenuPrefab;
+	private PauseMenu pauseMenu;
+	private Canvas pauseMenuCanvas;
+	private InputAction pause;
 	private InfoTextHandler infoTextHandler;
 	private LoadingManager loadingManager;
+	private bool isPaused;
 	private int currentLap;
 	private Timer timer;
-	private bool raceIsUpdating;
+	private bool raceIsOngoing;
 	private float raceTime;
 	private float timeUntilNextSpawn;
 	private void Awake(){
@@ -38,13 +43,51 @@ public class TrackHandler : MonoBehaviour {
 			throw new Exception("Track has no finish line!");
 		}
 	}
-	public void Initialize(CarHandler[] cps, PowerUpTrigger[] pups, RaceEndMenu remp, InfoText infoTextPrefab, LoadingManager lm){
+	public void Initialize(CarHandler[] cps, PowerUpTrigger[] pups, RaceEndMenu remp, PauseMenu pauseMenuPrefab, InputAction p, InfoText infoTextPrefab, LoadingManager lm){
 		carPrefabs = cps;
 		powerUpPrefabs = pups;
 		raceEndMenuPrefab = remp;
+		pauseMenu = Instantiate(pauseMenuPrefab, transform);
+		pauseMenu.ResumeGame.onClick.AddListener(Unpause);
+		pauseMenu.RestartRace.onClick.AddListener(() => {
+			RestartRace();
+			Unpause();
+		});
+		pauseMenu.ReturnToMenu.onClick.AddListener(LoadMainMenu);
+		pauseMenuCanvas = pauseMenu.GetComponent<Canvas>();
+		pause = p;
+		pause.Enable();
 		infoTextHandler = new InfoTextHandler(Instantiate(infoTextPrefab, transform), trackName, totalLaps);
 		loadingManager = lm;
 		SetUpRace();
+	}
+	private void Pause(){
+		isPaused = true;
+		pauseMenuCanvas.enabled = true;
+		foreach (CarHandler car in cars){
+			car.RigidBody.simulated = false;
+		}
+	}
+	private void Unpause(){
+		isPaused = false;
+		pauseMenuCanvas.enabled = false;
+		foreach (CarHandler car in cars){
+			car.RigidBody.simulated = true;
+		}
+	}
+	private void RestartRace(){
+		foreach (CarHandler car in cars){
+			Destroy(car.gameObject);
+		}
+		foreach (PowerUpTrigger powerUp in powerUpInstances){
+			Destroy(powerUp.gameObject);
+		}
+		SetUpRace();
+		StartRace();
+	}
+	private void LoadMainMenu(){
+		loadingManager.LoadMainMenu();
+		Destroy(gameObject);
 	}
 	private void SetUpRace(){
 		Vector2 leftmostCarPosition = finishLineTrigger.leftmostCarTransform.position;
@@ -69,7 +112,7 @@ public class TrackHandler : MonoBehaviour {
 		foreach (var car in cars){
 			car.EnableUpdate();
 		}
-		raceIsUpdating = true;
+		raceIsOngoing = true;
 		timeUntilNextSpawn = powerUpSpawningConfig.NewSpawnTime;
 	}
 	public void NewLap(int lap, CarHandler car){
@@ -83,39 +126,38 @@ public class TrackHandler : MonoBehaviour {
 		}
 	}
 	private void EndRace(CarHandler winningCar){
-		raceIsUpdating = false;
+		raceIsOngoing = false;
 		foreach (CarHandler car in cars){
 			car.DisableUpdate();
 			car.RemovePowerUp();
-			// TODO move to pause menu.
-			car.RigidBody.simulated = false;
 		}
 		RaceEndMenu raceEndMenu = Instantiate(raceEndMenuPrefab, transform);
 		raceEndMenu.Result.text = $"{winningCar.carName} won the race!";
-		raceEndMenu.ReturnToMenu.onClick.AddListener(() => {
-			loadingManager.LoadMainMenu();
-			Destroy(gameObject);
-		});
+		raceEndMenu.ReturnToMenu.onClick.AddListener(LoadMainMenu);
 		raceEndMenu.PlayAgain.onClick.AddListener(() => {
 			Destroy(raceEndMenu.gameObject);
-			foreach (CarHandler car in cars){
-				Destroy(car.gameObject);
-			}
-			foreach (PowerUpTrigger powerUp in powerUpInstances){
-				Destroy(powerUp.gameObject);
-			}
-			SetUpRace();
-			StartRace();
+			RestartRace();
 		});
 	}
 	private void FixedUpdate(){
-		if (!raceIsUpdating){
+		if (!raceIsOngoing){
 			return;
+		}
+		Debug.Log(pause.triggered);
+		if (isPaused){0pp
+			if (pause.triggered){
+				Unpause();
+			}
+			return;
+		}
+		if (pause.triggered){
+			Pause();
 		}
 		raceTime += Time.fixedDeltaTime;
 		infoTextHandler.UpdateTimer(raceTime);
 		HandlePowerUps();
 	}
+	
 	private void HandlePowerUps(){
 		// References to destroyed objects become null references and have to be manually removed.
 		powerUpInstances.RemoveAll(powerUp => powerUp == null);
