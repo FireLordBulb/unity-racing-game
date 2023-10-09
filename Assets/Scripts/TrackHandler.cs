@@ -67,6 +67,7 @@ public class TrackHandler : MonoBehaviour {
 		pauseMenuCanvas.enabled = true;
 		foreach (CarHandler car in cars){
 			car.RigidBody.simulated = false;
+			car.DisableUpdate();
 		}
 	}
 	private void Unpause(){
@@ -74,6 +75,7 @@ public class TrackHandler : MonoBehaviour {
 		pauseMenuCanvas.enabled = false;
 		foreach (CarHandler car in cars){
 			car.RigidBody.simulated = true;
+			car.EnableUpdate();
 		}
 	}
 	private void RestartRace(){
