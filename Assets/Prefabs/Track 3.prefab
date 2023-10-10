@@ -80,6 +80,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530299471129268267}
     m_Modifications:
+    - target: {fileID: 4817164893380351927, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5619617267966641064, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
       propertyPath: m_Name
       value: Straight Track Section (9)
@@ -205,6 +209,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530299471129268267}
     m_Modifications:
+    - target: {fileID: 4263785661955003982, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5652507500323713278, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2
@@ -311,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 8786017165903996921, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
       propertyPath: m_Name
       value: Curve Track Section (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904204182494366637, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1078,6 +1090,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530299471129268267}
     m_Modifications:
+    - target: {fileID: 4817164893380351927, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5619617267966641064, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
       propertyPath: m_Name
       value: Straight Track Section (10)
@@ -1271,6 +1287,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530299471129268267}
     m_Modifications:
+    - target: {fileID: 4817164893380351927, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5619617267966641064, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
       propertyPath: m_Name
       value: Straight Track Section (8)
@@ -1589,6 +1609,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4530299471129268267}
     m_Modifications:
+    - target: {fileID: 4263785661955003982, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5652507500323713278, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
