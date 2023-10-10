@@ -242,7 +242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8786017165903996921, guid: cdf6f3748d91d5947b2cc1bb0930e0dd, type: 3}
       propertyPath: m_Name
-      value: Curve Track Section
+      value: Curve Track Section (0)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -450,7 +450,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5619617267966641064, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
       propertyPath: m_Name
-      value: Straight Track Section
+      value: Straight Track Section (0)
       objectReference: {fileID: 0}
     - target: {fileID: 7991187923309240431, guid: ccaf90b47c67c2842acee2103ae1dd4d, type: 3}
       propertyPath: m_LocalPosition.x

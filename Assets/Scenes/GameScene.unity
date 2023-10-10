@@ -389,6 +389,7 @@ MonoBehaviour:
   trackPrefabs:
   - {fileID: 4944251812815468180, guid: 763b15443f4cdad458b11d519ca6af2f, type: 3}
   - {fileID: 2466131038818116300, guid: 4d2433beb84d181438be652270f398b8, type: 3}
+  - {fileID: 3509802771611643942, guid: f69917fd64129b34c86a4bcaa760446f, type: 3}
   carPrefabs:
   - {fileID: 3279117074071370040, guid: c525c256ffce58444b2e7f5d80341582, type: 3}
   - {fileID: 9205992610095289058, guid: c2599480908c13e4bb28381faa5c5cd4, type: 3}
@@ -409,6 +410,14 @@ MonoBehaviour:
     - m_Name: 
       m_Id: 8b910750-c2f5-4190-a152-a588cb193988
       m_Path: <Keyboard>/p
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pause
+      m_Flags: 0
+    - m_Name: 
+      m_Id: c725d92d-3476-4575-8da4-439ec910a8a9
+      m_Path: <Keyboard>/escape
       m_Interactions: 
       m_Processors: 
       m_Groups: 
