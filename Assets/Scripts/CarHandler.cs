@@ -33,20 +33,17 @@ public class CarHandler : MonoBehaviour {
 		LinearDrag = physicsConfig.LinearDrag;
 		AngledWheelsFriction = physicsConfig.AngledWheelsFriction;
 		RigidBody.angularDrag = physicsConfig.AngularDrag;
-		// Lap starts at -1 so when the start/finishline is crossed the
-		// first time, starting line one, the car is on lap 0.
+		// Lap starts at -1 so after the start/finishline is crossed the
+		// first time at the beginning of every race, the car is on lap 0.
 		lap = -1;
 		powerUp = null;
 		activePowerUpSprite = null;
 		powerUpSprites = new Dictionary<string, SpriteRenderer>();
 		foreach (Transform child in transform){
-			if (!child.TryGetComponent(out SpriteRenderer sprite)){
+			if (child.CompareTag("Untagged") || !child.TryGetComponent(out SpriteRenderer sprite)){
 				continue;
 			}
 			powerUpSprites.Add(child.tag, sprite);
-			if (!child.CompareTag("Untagged")){
-				//sprite.enabled = false;
-			}
 		}
 	}
 	public void IncrementLap(int change){
@@ -107,6 +104,7 @@ public class CarHandler : MonoBehaviour {
 			RemovePowerUp();
 		}
 	}
+	// The linear drag has to be updated every frame, since the more perpendicular a car's velocity is to its rotation, the greater the friction from the wheels.
 	private void UpdateDrag(){
 		float velocityDirectionAngle = Mathf.Atan2(RigidBody.velocity.y, RigidBody.velocity.x);
 		float rotationRelativeToVelocityDirection = velocityDirectionAngle-RigidBody.rotation*Mathf.Deg2Rad;

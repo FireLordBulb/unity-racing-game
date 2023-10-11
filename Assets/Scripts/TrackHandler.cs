@@ -112,7 +112,7 @@ public class TrackHandler : MonoBehaviour {
 		infoTextHandler.UpdateTimer(raceTime);
 	}
 	public void StartRace(){
-		foreach (var car in cars){
+		foreach (CarHandler car in cars){
 			car.EnableUpdate();
 		}
 		raceIsOngoing = true;
@@ -159,6 +159,7 @@ public class TrackHandler : MonoBehaviour {
 		infoTextHandler.UpdateTimer(raceTime);
 		HandlePowerUps();
 	}
+	// Returns true the first frame pause is held, but false following frames, so holding doesn't spam pause/unpause.
 	private bool PauseWasPressed(){
 		if (pause.IsPressed()){
 			bool pauseWasNotHeld = !pauseIsHeld;
@@ -169,7 +170,7 @@ public class TrackHandler : MonoBehaviour {
 		return false;
 	}
 	private void HandlePowerUps(){
-		// References to destroyed objects become null references and have to be manually removed.
+		// References to destroyed objects become null references that have to be explicitly removed from the list.
 		powerUpInstances.RemoveAll(powerUp => powerUp == null);
 		if (powerUpInstances.Count >= powerUpSpawningConfig.MaxInstances){
 			return;
