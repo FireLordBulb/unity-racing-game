@@ -16,6 +16,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3769593496053781590, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
+      propertyPath: m_Color.b
+      value: 0.28627452
+      objectReference: {fileID: 0}
+    - target: {fileID: 3769593496053781590, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 3769593496053781590, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
+      propertyPath: m_Color.r
+      value: 0.13333334
+      objectReference: {fileID: 0}
     - target: {fileID: 4214511107607134759, guid: 8e5a43a09fd0f0944844dd601d5b0622, type: 3}
       propertyPath: carName
       value: The Green Car
