@@ -9,8 +9,8 @@ public class CarHandler : MonoBehaviour {
 	[SerializeField] private InputAction gas, reverse, steering;
 	public string carName;
 	public Vector2 GasForce {get; set;}
-	private Vector2	ReverseForce {get; set;}
-	private float SteerTorque {get; set;}
+	public Vector2	ReverseForce {get; set;}
+	public float SteerTorque {get; set;}
 	public float LinearDrag {get; set;}
 	public float AngledWheelsFriction {get; set;}
 	public Rigidbody2D RigidBody {get; private set;}
