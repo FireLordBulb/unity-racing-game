@@ -1,6 +1,6 @@
 # unity-racing-game
 Vilgot Ottestig
-The game used the agreed upon Unity version 2022.3.9f1.
+The game uses the agreed upon Unity version 2022.3.9f1.
 
 You start the game in the scene GameScene (the only scene).
 
