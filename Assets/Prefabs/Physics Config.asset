@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Physics Config
   m_EditorClassIdentifier: 
   linearDrag: 1.5
-  angledWheelsFriction: 2
+  angledWheelsFriction: 4
   angularDrag: 4
-  gasForce: 10
+  gasForce: 12
   reverseForce: -3
   steerTorque: 0.4

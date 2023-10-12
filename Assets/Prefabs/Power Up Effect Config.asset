@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Power Up Effect Config
   m_EditorClassIdentifier: 
   speedBoostDuration: 5
-  speedBoostForce: 14
+  speedBoostForce: 15
   iceCurseDuration: 5
   iceCurseLinearDrag: 1
-  iceCurseAngledWheelsFriction: 1
+  iceCurseAngledWheelsFriction: 2
