@@ -131,7 +131,7 @@ public class TrackHandler : MonoBehaviour {
 	private void EndRace(CarHandler winningCar){
 		raceIsOngoing = false;
 		foreach (CarHandler car in cars){
-			car.DisableUpdate();
+			car.DisableInput();
 			car.RemovePowerUp();
 		}
 		RaceEndMenu raceEndMenu = Instantiate(raceEndMenuPrefab, transform);

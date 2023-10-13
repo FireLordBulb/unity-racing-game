@@ -83,6 +83,9 @@ public class CarHandler : MonoBehaviour {
 		steering.Enable();
 	}
 	private void OnDisable(){
+		DisableInput();
+	}
+	public void DisableInput(){
 		gas.Disable();
 		reverse.Disable();
 		steering.Disable();
