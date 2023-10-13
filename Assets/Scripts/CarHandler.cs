@@ -24,6 +24,8 @@ public class CarHandler : MonoBehaviour {
 	
 	public void Initialize(TrackHandler track){
 		RigidBody = gameObject.GetComponent<Rigidbody2D>();
+		// TODO continue implementing.
+		RigidBody.centerOfMass += new Vector2(-0.25f, 0);
 		currentTrack = track;
 	}
 	private void Start(){
