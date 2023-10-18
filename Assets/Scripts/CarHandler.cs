@@ -25,7 +25,7 @@ public class CarHandler : MonoBehaviour {
 	public void Initialize(TrackHandler track){
 		RigidBody = gameObject.GetComponent<Rigidbody2D>();
 		// TODO continue implementing.
-		RigidBody.centerOfMass += new Vector2(-0.25f, 0);
+		//RigidBody.centerOfMass += new Vector2(-0.25f, 0);
 		currentTrack = track;
 	}
 	private void Start(){
@@ -125,7 +125,13 @@ public class CarHandler : MonoBehaviour {
 		}
 		
 		if (steering.IsPressed()){
-			RigidBody.AddTorque(SteerTorque*steering.ReadValue<float>());
+			Turn(SteerTorque*steering.ReadValue<float>());
+			//RigidBody.AddTorque(SteerTorque*steering.ReadValue<float>());
 		}
+	}
+	private void Turn(float torque){
+		Vector2 torqueForce = new Vector2(0, torque);
+		RigidBody.AddForceAtPosition(torqueForce, new Vector2(0.25f, 0));
+		RigidBody.AddForceAtPosition(-torqueForce, new Vector2(-0.25f, 0));
 	}
 }
