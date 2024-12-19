@@ -1,6 +1,4 @@
 # unity-racing-game
-Vilgot Ottestig
-
 The game uses the agreed upon Unity version 2022.3.9f1.
 
 You start the game in the scene GameScene (the only scene).
@@ -16,5 +14,3 @@ I use (recolorings of) the white 4x4 car sprite from https://assetstore.unity.co
 
 Code Source(s)/Tutorial(s):
 I didn't follow any tutorials or look at example code for any of the features I wanted in this game but I did watch https://www.youtube.com/watch?v=dtv7mjj_iog while working on the project. Most of the methods in the video I was already using but the one thing I changed in my code because of the video was that I added TryGetComponent in relevant places, following the video's advice.
-
-Vilgot Ottestig
